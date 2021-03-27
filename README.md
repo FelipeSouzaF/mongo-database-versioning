@@ -17,11 +17,11 @@ Mongo DB migration database versioning
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g mongo-database-versioning
+$ npm install -g @epilefapps/mongo-database-versioning
 $ mongo-migrate COMMAND
 running command...
 $ mongo-migrate (-v|--version|version)
-mongo-database-versioning/0.1.0 linux-x64 node-v12.16.3
+@epilefapps/mongo-database-versioning/0.1.0 linux-x64 node-v12.16.3
 $ mongo-migrate --help [COMMAND]
 USAGE
   $ mongo-migrate COMMAND

@@ -1,5 +1,5 @@
 {
-  "name": "mongo-database-versioning",
+  "name": "@epilefapps/mongo-database-versioning",
   "description": "Mongo DB migration database versioning",
   "version": "0.1.0",
   "author": "Felipe Farias @FelipeSouzaF",
