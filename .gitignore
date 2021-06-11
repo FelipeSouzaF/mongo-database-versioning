@@ -1,5 +1,7 @@
 *-debug.log
 *-error.log
+mongomigraterc.js
+/database
 /.nyc_output
 /dist
 /lib
