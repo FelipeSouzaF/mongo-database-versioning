@@ -9,6 +9,10 @@ export const migration = (
       {
         fileName: String,
         batch: Number,
+        date: {
+          type: Date,
+          default: Date.now,
+        },
       },
       {
         collection: collectionName,
