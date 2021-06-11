@@ -24,7 +24,7 @@ export class MongoMigrateRc {
     try {
       const gitRepoTopLevel = await this.git.revparse(['--show-toplevel'])
 
-      let mongoMigrateRcFile: object = {}
+      let mongoMigrateRcFile: MongoMigrateRcInterface
       try {
         mongoMigrateRcFile = requireUncached(`${gitRepoTopLevel}/${this.configFileName}`)
       } catch {
