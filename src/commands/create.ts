@@ -70,7 +70,12 @@ export default class Create extends Command {
     await fse.outputFileSync(
       path.join(
         rootPath,
-        `${fileDir}/${fileDate}-${fileName}.js`
+        this.getCompleteFilePath(
+          fileDir,
+          fileDate,
+          fileName,
+          args.option
+        )
       ),
       fileContent
     )
@@ -99,5 +104,22 @@ export default class Create extends Command {
     }
 
     return fileDirName
+  }
+
+  private useDateInFileName(fileOption: string): boolean {
+    return !(fileOption === 'tenant')
+  }
+
+  private getCompleteFilePath(
+    fileDir: string,
+    fileDate: string,
+    fileName: string,
+    fileOption: string
+  ): string {
+    if (this.useDateInFileName(fileOption)) {
+      return `${fileDir}/${fileDate}-${fileName}.js`
+    }
+
+    return `${fileDir}/${fileName}.js`
   }
 }
