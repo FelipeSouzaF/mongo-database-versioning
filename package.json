@@ -17,7 +17,7 @@
     "indicative": "^7.4.4",
     "lodash.kebabcase": "^4.1.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.12.2",
+    "mongodb": "^4.0.1",
     "require-uncached": "^2.0.0",
     "simple-git": "^2.37.0",
     "tslib": "^1.14.1"
