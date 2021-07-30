@@ -1,8 +1,8 @@
-import Mongoose = require('mongoose')
+import {MongoClient} from 'mongodb'
 import {MongoMigrateRcInterface} from '../types/mongo-migrate-rc'
 
 export class Database {
-  public mongoose: Mongoose.Mongoose;
+  public mongoClient: MongoClient;
 
   private connectionString: string;
 
@@ -40,19 +40,14 @@ export class Database {
       connectionString = `mongodb://${user}:${password}@${host}:${port}/${database}`
     }
 
-    this.mongoose = Mongoose
     this.connectionString = connectionString
     this.options = options
     this.debug = debug
+
+    this.mongoClient = new MongoClient(this.connectionString, this.options)
   }
 
   public async connect(): Promise<void> {
-    if (this.debug) {
-      Mongoose.set('debug', true)
-    }
-    Mongoose.set('useCreateIndex', true)
-    await Mongoose.connect(this.connectionString, this.options)
-
-    this.mongoose = Mongoose
+    this.mongoClient.connect()
   }
 }

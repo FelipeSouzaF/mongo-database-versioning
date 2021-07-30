@@ -1,11 +1,14 @@
+import cli from 'cli-ux'
 import {Command, flags} from '@oclif/command'
 import {Database} from '../config/database'
 import {MongoMigrateRc} from '../config/mongo-migrate-rc'
-import {migration} from '../models/migration'
-const glob = require('glob')
+import {MongoMigrateRcInterface} from '../types/mongo-migrate-rc'
 import simpleGit from 'simple-git'
+const glob = require('glob')
 
 export default class Migrate extends Command {
+  private rootPath = ''
+
   static description = 'describe the command here'
 
   static examples = [
@@ -30,41 +33,96 @@ export default class Migrate extends Command {
 
   async run() {
     try {
-      // const {args, flags} = this.parse(Migrate)
+      cli.action.start('starting', 'loading', {stdout: true})
 
-      const git = simpleGit()
-      const rootPath = await git.revparse(['--show-toplevel'])
+      cli.action.stop()
+
+      const {args, flags} = this.parse(Migrate)
+
+      const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+      await delay(1000)
+
+      this.initialSetup()
 
       const mongoMigrateRc = new MongoMigrateRc()
       const configFile = await mongoMigrateRc.getConfigFile()
 
-      const filesDir = configFile?.migrations.dir
-      // const {connection, connectionString} = configFile
+      const hasTenant = Boolean(flags.tenant && flags.tenant.length)
+      const tenantFilesDir = configFile?.tenants?.dir
 
-      const db = new Database(configFile)
-      await db.connect()
+      if (hasTenant) {
+        const tenantsPattern = flags.tenant[0] === 'all' ? '*' : `+(${flags.tenant.join('|')})`
 
-      const MigrationModel = migration('migrations')
+        const tenantFiles = await glob.sync(`${this.rootPath}/${tenantFilesDir}/${tenantsPattern}.js`)
 
-      const migrationFiles = await glob.sync(`${rootPath}/${filesDir}/*.js`)
+        for await (const tenantFilePath of tenantFiles) {
+          const tenantFileName = tenantFilePath
+          .split('/')
+          .find((f: string | string[]) => (f.includes('.js')))
 
-      for await (const migrationFile of migrationFiles) {
-        const Migration = require(migrationFile)
-        const migrationInstance = new Migration()
+          cli.action.start(`\ntenant: ${tenantFileName}`, 'migrating', {stdout: true})
 
-        migrationInstance.run()
+          const Tenant = require(tenantFilePath)
+          const tenantInstance = new Tenant()
 
-        await MigrationModel.create({
-          fileName: migrationFile,
-          batch: 1,
-        })
+          configFile.connection = tenantInstance.connection.connection
+          configFile.connectionString = tenantInstance.connection.connectionString
+
+          cli.action.stop()
+
+          await this.runMigrations(configFile)
+
+          await delay(1000)
+        }
+      } else {
+        this.runMigrations(configFile)
       }
 
-      db.mongoose?.disconnect()
+      cli.action.start('\nstoping', 'loading', {stdout: true})
 
-      this.log('run migration command')
+      cli.action.stop()
     } catch (error) {
       this.error(error.message)
     }
+  }
+
+  private async initialSetup() {
+    const git = simpleGit()
+    this.rootPath = await git.revparse(['--show-toplevel'])
+  }
+
+  private async runMigrations(configFile: MongoMigrateRcInterface) {
+    const migrationFilesDir = configFile?.migrations.dir
+
+    const db = new Database(configFile)
+    await db.connect()
+
+    const migrationCollection = db.mongoClient.db().collection('migrations')
+
+    const migrationFiles = await glob.sync(`${this.rootPath}/${migrationFilesDir}/*.js`)
+
+    for await (const migrationFilePath of migrationFiles) {
+      const migrationFileName = migrationFilePath
+      .split('/')
+      .find((f: string | string[]) => (f.includes('.js')))
+
+      if (await migrationCollection.countDocuments({fileName: migrationFileName}) === 0) {
+        cli.action.start(`file: ${migrationFileName}`, 'migrating', {stdout: true})
+
+        const Migration = require(migrationFilePath)
+        const migrationInstance = new Migration()
+
+        await migrationInstance.run(db.mongoClient.db())
+
+        await migrationCollection.insertOne({
+          fileName: migrationFileName,
+          batch: 1,
+        })
+
+        cli.action.stop()
+      }
+    }
+
+    await db.mongoClient?.close()
   }
 }
