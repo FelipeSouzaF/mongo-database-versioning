@@ -1,9 +1,21 @@
 module.exports = class Tenant {
-  run() {
-    console.log('run tenant')
-  }
+  get connection() {
+    return {
+      connectionString: '',
 
-  rollback() {
-    console.log('rollback tenant')
+      connection: {
+        host: 'localhost',
+        port: 27017,
+        user: 'root',
+        password: 'toor',
+        database: '',
+        options: {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          authSource: 'admin',
+        },
+        debug: false,
+      },
+    }
   }
 }
