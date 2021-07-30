@@ -1,9 +1,9 @@
 module.exports = class Seeder {
-  run() {
+  run(db) {
     console.log('run seeder')
   }
 
-  rollback() {
+  rollback(db) {
     console.log('rollback seeder')
   }
 }

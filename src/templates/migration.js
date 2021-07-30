@@ -1,9 +1,9 @@
 module.exports = class Migration {
-  run() {
+  run(db) {
     console.log('run migration')
   }
 
-  rollback() {
+  rollback(db) {
     console.log('rollback migration')
   }
 }

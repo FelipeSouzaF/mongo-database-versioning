@@ -1,9 +1,9 @@
 module.exports = class Factory {
-  run() {
+  run(db) {
     console.log('run factory')
   }
 
-  rollback() {
+  rollback(db) {
     console.log('rollback factory')
   }
 }
