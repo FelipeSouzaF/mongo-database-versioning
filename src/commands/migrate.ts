@@ -29,18 +29,13 @@ export default class Migrate extends Command {
     }),
   }
 
-  static args = [{name: 'file'}]
-
   async run() {
     try {
       cli.action.start('starting', 'loading', {stdout: true})
 
       cli.action.stop()
 
-      const {args, flags} = this.parse(Migrate)
-
-      const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-      await delay(1000)
+      const {flags} = this.parse(Migrate)
 
       this.initialSetup()
 
@@ -71,8 +66,6 @@ export default class Migrate extends Command {
           cli.action.stop()
 
           await this.runMigrations(configFile)
-
-          await delay(1000)
         }
       } else {
         this.runMigrations(configFile)
