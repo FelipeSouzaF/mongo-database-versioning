@@ -68,7 +68,7 @@ export default class Migrate extends Command {
           await this.runMigrations(configFile)
         }
       } else {
-        this.runMigrations(configFile)
+        await this.runMigrations(configFile)
       }
 
       cli.action.start('\nstoping', 'loading', {stdout: true})
