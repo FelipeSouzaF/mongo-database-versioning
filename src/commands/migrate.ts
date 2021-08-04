@@ -9,7 +9,7 @@ const glob = require('glob')
 export default class Migrate extends Command {
   private rootPath = ''
 
-  static description = 'describe the command here'
+  static description = 'command to run migrations files'
 
   static examples = [
     '$ mongo-migrate migrate',
@@ -19,7 +19,7 @@ export default class Migrate extends Command {
     help: flags.help({char: 'h'}),
     tenant: flags.string({
       char: 't',
-      description: 'tenant connection to run',
+      description: 'tenant file to connect',
       multiple: true,
     }),
     file: flags.string({
