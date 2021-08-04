@@ -50,12 +50,14 @@ export default class Migrate extends Command {
 
         const tenantFiles = await glob.sync(`${this.rootPath}/${tenantFilesDir}/${tenantsPattern}.js`)
 
-        for await (const tenantFilePath of tenantFiles) {
+        for await (const [index, tenantFilePath] of tenantFiles.entries()) {
           const tenantFileName = tenantFilePath
           .split('/')
           .find((f: string | string[]) => (f.includes('.js')))
 
-          cli.action.start(`\ntenant: ${tenantFileName}`, 'migrating', {stdout: true})
+          const newLine = index ? '\n' : ''
+
+          cli.action.start(`${newLine}tenant: ${tenantFileName}`, 'migrating', {stdout: true})
 
           const Tenant = require(tenantFilePath)
           const tenantInstance = new Tenant()
@@ -71,7 +73,7 @@ export default class Migrate extends Command {
         await this.runMigrations(configFile)
       }
 
-      cli.action.start('\nstoping', 'loading', {stdout: true})
+      cli.action.start('stoping', 'loading', {stdout: true})
 
       cli.action.stop()
     } catch (error) {
@@ -100,7 +102,7 @@ export default class Migrate extends Command {
       .find((f: string | string[]) => (f.includes('.js')))
 
       if (await migrationCollection.countDocuments({fileName: migrationFileName}) === 0) {
-        cli.action.start(`file: ${migrationFileName}`, 'migrating', {stdout: true})
+        cli.action.start(`file: ${migrationFileName} migrating`, 'migrating', {stdout: true})
 
         const Migration = require(migrationFilePath)
         const migrationInstance = new Migration()
