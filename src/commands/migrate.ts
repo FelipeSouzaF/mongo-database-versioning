@@ -101,6 +101,8 @@ export default class Migrate extends Command {
       .split('/')
       .find((f: string | string[]) => (f.includes('.js')))
 
+      const migrationLastBatch = await (await migrationCollection.find().sort({batch: -1}).limit(1).toArray())[0]?.batch | 1
+
       if (await migrationCollection.countDocuments({fileName: migrationFileName}) === 0) {
         cli.action.start(`file: ${migrationFileName} migrating`, 'migrating', {stdout: true})
 
@@ -111,7 +113,7 @@ export default class Migrate extends Command {
 
         await migrationCollection.insertOne({
           fileName: migrationFileName,
-          batch: 1,
+          batch: migrationLastBatch,
         })
 
         cli.action.stop()
