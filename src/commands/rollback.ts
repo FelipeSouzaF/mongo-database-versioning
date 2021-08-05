@@ -76,7 +76,7 @@ export default class Rollback extends Command {
       cli.action.start('stoping', 'loading', {stdout: true})
 
       cli.action.stop()
-    } catch (error) {
+    } catch (error: any) {
       this.error(error.message)
     }
   }
