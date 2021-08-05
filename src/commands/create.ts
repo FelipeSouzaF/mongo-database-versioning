@@ -10,7 +10,7 @@ const kebabCase = require('lodash.kebabcase')
 const moment = require('moment')
 
 export default class Create extends Command {
-  static description = 'describe the command here'
+  static description = 'command to create tenant, migration, seed or factory files'
 
   static examples = [
     `
