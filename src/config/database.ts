@@ -48,6 +48,6 @@ export class Database {
   }
 
   public async connect(): Promise<void> {
-    this.mongoClient.connect()
+    await this.mongoClient.connect()
   }
 }
