@@ -1,9 +1,17 @@
 module.exports = class Migration {
-  run(db) {
-    console.log('run migration')
+  // eslint-disable-next-line valid-jsdoc
+  /**
+   * @see {@link https://mongodb.github.io/node-mongodb-native/4.0/classes/db.html#constructor|MongoDB}
+   */
+  async run(db) {
+    //
   }
 
-  rollback(db) {
-    console.log('rollback migration')
+  // eslint-disable-next-line valid-jsdoc
+  /**
+   * @see {@link https://mongodb.github.io/node-mongodb-native/4.0/classes/db.html#constructor|MongoDB}
+   */
+  async rollback(db) {
+    //
   }
 }
