@@ -77,7 +77,6 @@ export default class Seed extends Command {
 
       cli.action.stop()
     } catch (error) {
-      console.log(error)
       this.error(error.message)
     }
   }
