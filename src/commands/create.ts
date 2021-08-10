@@ -1,13 +1,6 @@
 import {Command, flags} from '@oclif/command'
 import {MongoMigrateRc} from '../config/mongo-migrate-rc'
-import {MongoMigrateRcInterface} from '../types/mongo-migrate-rc'
-import simpleGit from 'simple-git'
-const fs = require('fs')
-const fse = require('fs-extra')
-const path = require('path')
-const camelCase = require('camelcase')
-const kebabCase = require('lodash.kebabcase')
-const moment = require('moment')
+import File from '../helpers/file'
 
 export default class Create extends Command {
   static description = 'command to create tenant, migration, seed or factory files'
@@ -46,80 +39,18 @@ export default class Create extends Command {
     },
   ]
 
-  private configFile: MongoMigrateRcInterface | undefined
-
   async run() {
     const {args} = this.parse(Create)
 
     const mongoMigrateRc = new MongoMigrateRc()
-    this.configFile = await mongoMigrateRc.getConfigFile()
 
-    const git = simpleGit()
-    const fileDate = moment().format('YYYY-MM-DD-x')
-    const fileName = kebabCase(args.file)
-    const className = camelCase(args.file, {pascalCase: true})
-    const fileDir = this.getFileDir(args.option)
-    const rootPath = await git.revparse(['--show-toplevel'])
-
-    const fileContent = await fs.readFileSync(
-      path.join(__dirname, `../templates/${args.option}.js`),
-      'utf-8'
+    const file = new File(
+      await mongoMigrateRc.getConfigFile()
     )
-    .replace(/(class )(\w+)( {)/gi, `$1${className}$3`)
 
-    await fse.outputFileSync(
-      path.join(
-        rootPath,
-        this.getCompleteFilePath(
-          fileDir,
-          fileDate,
-          fileName,
-          args.option
-        )
-      ),
-      fileContent
+    await file.make(
+      args.file,
+      args.option
     )
-  }
-
-  private getFileDir(fileOption: string): string {
-    let fileDirName: string | undefined
-
-    switch (fileOption) {
-    case 'migration':
-      fileDirName = this.configFile?.migrations.dir
-      break
-    case 'seeder':
-      fileDirName = this.configFile?.seeders.dir
-      break
-    case 'factory':
-      fileDirName = this.configFile?.factories.dir
-      break
-    case 'tenant':
-      fileDirName = this.configFile?.tenants.dir
-      break
-    }
-
-    if (!fileDirName) {
-      throw new Error(`${fileOption} directory not found`)
-    }
-
-    return fileDirName
-  }
-
-  private useDateInFileName(fileOption: string): boolean {
-    return !(fileOption === 'tenant')
-  }
-
-  private getCompleteFilePath(
-    fileDir: string,
-    fileDate: string,
-    fileName: string,
-    fileOption: string
-  ): string {
-    if (this.useDateInFileName(fileOption)) {
-      return `${fileDir}/${fileDate}-${fileName}.js`
-    }
-
-    return `${fileDir}/${fileName}.js`
   }
 }
