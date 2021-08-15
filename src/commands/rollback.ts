@@ -19,11 +19,6 @@ export default class Rollback extends Command {
       description: 'tenant file to connect',
       multiple: true,
     }),
-    file: flags.string({
-      char: 'f',
-      description: 'migration file to rollback',
-      multiple: true,
-    }),
   }
 
   async run() {

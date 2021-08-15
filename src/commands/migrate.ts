@@ -19,11 +19,6 @@ export default class Migrate extends Command {
       description: 'tenant file to connect',
       multiple: true,
     }),
-    file: flags.string({
-      char: 'f',
-      description: 'migration file to run',
-      multiple: true,
-    }),
   }
 
   async run() {
