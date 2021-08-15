@@ -1,7 +1,7 @@
 {
   "name": "@epilefapps/mongo-database-versioning",
   "description": "Mongo DB migration database versioning",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "author": "Felipe Farias @FelipeSouzaF",
   "bin": {
     "mongo-migrate": "./bin/run"
