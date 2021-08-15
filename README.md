@@ -21,7 +21,7 @@ $ npm install -g @epilefapps/mongo-database-versioning
 $ mongo-migrate COMMAND
 running command...
 $ mongo-migrate (-v|--version|version)
-@epilefapps/mongo-database-versioning/0.1.0 linux-x64 node-v12.16.3
+@epilefapps/mongo-database-versioning/1.0.0 linux-x64 node-v16.2.0
 $ mongo-migrate --help [COMMAND]
 USAGE
   $ mongo-migrate COMMAND
@@ -30,28 +30,56 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`mongo-migrate hello [FILE]`](#mongo-migrate-hello-file)
+* [`mongo-migrate create OPTION FILE`](#mongo-migrate-create-option-file)
+* [`mongo-migrate factory`](#mongo-migrate-factory)
 * [`mongo-migrate help [COMMAND]`](#mongo-migrate-help-command)
+* [`mongo-migrate migrate`](#mongo-migrate-migrate)
+* [`mongo-migrate rollback`](#mongo-migrate-rollback)
+* [`mongo-migrate seed`](#mongo-migrate-seed)
 
-## `mongo-migrate hello [FILE]`
+## `mongo-migrate create OPTION FILE`
 
-describe the command here
+command to create tenant, migration, seed or factory files
 
 ```
 USAGE
-  $ mongo-migrate hello [FILE]
+  $ mongo-migrate create OPTION FILE
+
+ARGUMENTS
+  OPTION  (migration|seeder|factory|tenant) create the given file option
+  FILE    create the given file name
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help  show CLI help
 
 EXAMPLE
-  $ mongo-migrate hello
-  hello world from ./src/hello.ts!
+
+         $ mongo-migrate create migration MigrationName
+         $ mongo-migrate create seeder SeederName
+         $ mongo-migrate create factory FactoryName
+         $ mongo-migrate create tenant TenantName
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v0.1.0/src/commands/hello.ts)_
+_See code: [src/commands/create.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/create.ts)_
+
+## `mongo-migrate factory`
+
+command to run factory files
+
+```
+USAGE
+  $ mongo-migrate factory
+
+OPTIONS
+  -f, --file=file      factory file to run
+  -h, --help           show CLI help
+  -t, --tenant=tenant  tenant file to connect
+
+EXAMPLE
+  $ mongo-migrate factory
+```
+
+_See code: [src/commands/factory.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/factory.ts)_
 
 ## `mongo-migrate help [COMMAND]`
 
@@ -68,5 +96,60 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.3/src/commands/help.ts)_
+
+## `mongo-migrate migrate`
+
+command to run migrations files
+
+```
+USAGE
+  $ mongo-migrate migrate
+
+OPTIONS
+  -h, --help           show CLI help
+  -t, --tenant=tenant  tenant file to connect
+
+EXAMPLE
+  $ mongo-migrate migrate
+```
+
+_See code: [src/commands/migrate.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/migrate.ts)_
+
+## `mongo-migrate rollback`
+
+command to rollback migrations files
+
+```
+USAGE
+  $ mongo-migrate rollback
+
+OPTIONS
+  -h, --help           show CLI help
+  -t, --tenant=tenant  tenant file to connect
+
+EXAMPLE
+  $ mongo-migrate rollback
+```
+
+_See code: [src/commands/rollback.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/rollback.ts)_
+
+## `mongo-migrate seed`
+
+command to run seed files
+
+```
+USAGE
+  $ mongo-migrate seed
+
+OPTIONS
+  -f, --file=file      seed file to run
+  -h, --help           show CLI help
+  -t, --tenant=tenant  tenant file to connect
+
+EXAMPLE
+  $ mongo-migrate seed
+```
+
+_See code: [src/commands/seed.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/seed.ts)_
 <!-- commandsstop -->
