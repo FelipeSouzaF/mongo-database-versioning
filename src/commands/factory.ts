@@ -40,7 +40,9 @@ export default class Factory extends Command {
         await mongoMigrateRc.getConfigFile()
       )
 
-      await file.execute('factory', flags.tenant)
+      const fileExec = flags.file ? flags.file[0] : ''
+
+      await file.execute('factory', flags.tenant, fileExec)
 
       cli.action.start('stoping', 'loading', {stdout: true})
 

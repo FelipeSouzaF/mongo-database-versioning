@@ -109,7 +109,8 @@ export default class File {
 
   public async execute(
     type: string,
-    tenant: string[]
+    tenant: string[],
+    file?: string,
   ) {
     const filesDir = this.getFileDir(type)
 
@@ -135,17 +136,18 @@ export default class File {
 
         cli.action.stop()
 
-        await this.executeConnection(type, filesDir, this.configFile)
+        await this.executeConnection(type, filesDir, this.configFile, file)
       }
     } else {
-      await this.executeConnection(type, filesDir, this.configFile)
+      await this.executeConnection(type, filesDir, this.configFile, file)
     }
   }
 
   private async executeConnection(
     type: string,
     filesDir: string,
-    configFile: MongoMigrateRcInterface
+    configFile: MongoMigrateRcInterface,
+    file?: string
   ) {
     const db = new Database(configFile)
     await db.connect()
@@ -159,7 +161,7 @@ export default class File {
       break
     case 'seeder':
     case 'factory':
-      await this.seedOrFactory(db, filesDir)
+      await this.seedOrFactory(db, type, filesDir, file)
     }
 
     await db.mongoClient?.close()
@@ -214,13 +216,17 @@ export default class File {
     }
   }
 
-  private async seedOrFactory(db, filesDir: string) {
-    const seedFiles = await glob.sync(`${await this.rootPath()}/${filesDir}/*.js`)
+  private async seedOrFactory(db, type: string, filesDir: string, execSpecificFile?: string) {
+    let seedFiles = execSpecificFile ? execSpecificFile : '*.js'
+
+    seedFiles = await glob.sync(`${await this.rootPath()}/${filesDir}/${seedFiles}`)
+
+    const seedMsg = type === 'seeder' ? 'seeding' : 'factoring'
 
     for await (const seedFilePath of seedFiles) {
       const seedFileName = await this.filterJsFileName(seedFilePath)
 
-      cli.action.start(`file: ${seedFileName} seeding`, 'seeding', {stdout: true})
+      cli.action.start(`file: ${seedFileName} ${seedMsg}`, `${seedMsg}`, {stdout: true})
 
       const Seeder = require(seedFilePath)
       const seederInstance = new Seeder()

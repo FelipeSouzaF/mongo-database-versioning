@@ -40,7 +40,9 @@ export default class Seed extends Command {
         await mongoMigrateRc.getConfigFile()
       )
 
-      await file.execute('seeder', flags.tenant)
+      const fileExec = flags.file ? flags.file[0] : ''
+
+      await file.execute('seeder', flags.tenant, fileExec)
 
       cli.action.start('stoping', 'loading', {stdout: true})
 
