@@ -22,26 +22,22 @@ export default class Rollback extends Command {
   }
 
   async run() {
-    try {
-      cli.action.start('starting', 'loading', {stdout: true})
+    cli.action.start('starting', 'loading', {stdout: true})
 
-      cli.action.stop()
+    cli.action.stop()
 
-      const {flags} = this.parse(Rollback)
+    const {flags} = this.parse(Rollback)
 
-      const mongoMigrateRc = new MongoMigrateRc()
+    const mongoMigrateRc = new MongoMigrateRc()
 
-      const file = new File(
-        await mongoMigrateRc.getConfigFile()
-      )
+    const file = new File(
+      await mongoMigrateRc.getConfigFile()
+    )
 
-      await file.execute('rollback', flags.tenant)
+    await file.execute('rollback', flags.tenant)
 
-      cli.action.start('stoping', 'loading', {stdout: true})
+    cli.action.start('stoping', 'loading', {stdout: true})
 
-      cli.action.stop()
-    } catch (error: any) {
-      this.error(error.message)
-    }
+    cli.action.stop()
   }
 }
