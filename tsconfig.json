@@ -4,6 +4,7 @@
     "importHelpers": true,
     "module": "commonjs",
     "noImplicitAny": false,
+    "skipLibCheck": true,
     "outDir": "lib",
     "rootDir": "src",
     "strict": true,
