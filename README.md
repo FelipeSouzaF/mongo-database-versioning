@@ -21,7 +21,7 @@ $ npm install -g @epilefapps/mongo-database-versioning
 $ mongo-migrate COMMAND
 running command...
 $ mongo-migrate (-v|--version|version)
-@epilefapps/mongo-database-versioning/1.0.0 linux-x64 node-v16.2.0
+@epilefapps/mongo-database-versioning/1.1.0 linux-x64 node-v16.2.0
 $ mongo-migrate --help [COMMAND]
 USAGE
   $ mongo-migrate COMMAND
@@ -36,6 +36,7 @@ USAGE
   - [`mongo-migrate create OPTION FILE`](#mongo-migrate-create-option-file)
   - [`mongo-migrate factory`](#mongo-migrate-factory)
   - [`mongo-migrate help [COMMAND]`](#mongo-migrate-help-command)
+  - [`mongo-migrate install`](#mongo-migrate-install)
   - [`mongo-migrate migrate`](#mongo-migrate-migrate)
   - [`mongo-migrate rollback`](#mongo-migrate-rollback)
   - [`mongo-migrate seed`](#mongo-migrate-seed)
@@ -63,7 +64,7 @@ EXAMPLE
          $ mongo-migrate create tenant TenantName
 ```
 
-_See code: [src/commands/create.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/create.ts)_
+_See code: [src/commands/create.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.1.0/src/commands/create.ts)_
 
 ## `mongo-migrate factory`
 
@@ -82,7 +83,7 @@ EXAMPLE
   $ mongo-migrate factory
 ```
 
-_See code: [src/commands/factory.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/factory.ts)_
+_See code: [src/commands/factory.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.1.0/src/commands/factory.ts)_
 
 ## `mongo-migrate help [COMMAND]`
 
@@ -101,6 +102,24 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.3/src/commands/help.ts)_
 
+## `mongo-migrate install`
+
+command to init mongo-migrate into a repository
+
+```
+USAGE
+  $ mongo-migrate install
+
+OPTIONS
+  -h, --help  show CLI help
+
+EXAMPLE
+
+         $ mongo-migrate install
+```
+
+_See code: [src/commands/install.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.1.0/src/commands/install.ts)_
+
 ## `mongo-migrate migrate`
 
 command to run migrations files
@@ -117,7 +136,7 @@ EXAMPLE
   $ mongo-migrate migrate
 ```
 
-_See code: [src/commands/migrate.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/migrate.ts)_
+_See code: [src/commands/migrate.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.1.0/src/commands/migrate.ts)_
 
 ## `mongo-migrate rollback`
 
@@ -135,7 +154,7 @@ EXAMPLE
   $ mongo-migrate rollback
 ```
 
-_See code: [src/commands/rollback.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/rollback.ts)_
+_See code: [src/commands/rollback.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.1.0/src/commands/rollback.ts)_
 
 ## `mongo-migrate seed`
 
@@ -154,5 +173,5 @@ EXAMPLE
   $ mongo-migrate seed
 ```
 
-_See code: [src/commands/seed.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.0.0/src/commands/seed.ts)_
+_See code: [src/commands/seed.ts](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/v1.1.0/src/commands/seed.ts)_
 <!-- commandsstop -->
