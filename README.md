@@ -4,11 +4,11 @@ mongo-database-versioning
 Mongo DB migration database versioning
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/mongo-database-versioning.svg)](https://npmjs.org/package/mongo-database-versioning)
+[![Version](https://img.shields.io/npm/v/mongo-database-versioning.svg)](https://npmjs.org/package/@epilefapps/mongo-database-versioning)
 [![CircleCI](https://circleci.com/gh/FelipeSouzaF/mongo-database-versioning/tree/master.svg?style=shield)](https://circleci.com/gh/FelipeSouzaF/mongo-database-versioning/tree/master)
 [![Codecov](https://codecov.io/gh/FelipeSouzaF/mongo-database-versioning/branch/master/graph/badge.svg)](https://codecov.io/gh/FelipeSouzaF/mongo-database-versioning)
-[![Downloads/week](https://img.shields.io/npm/dw/mongo-database-versioning.svg)](https://npmjs.org/package/mongo-database-versioning)
-[![License](https://img.shields.io/npm/l/mongo-database-versioning.svg)](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/master/package.json)
+[![Downloads/week](https://img.shields.io/npm/dw/mongo-database-versioning.svg)](https://npmjs.org/package/@epilefapps/mongo-database-versioning)
+[![License](https://img.shields.io/npm/l/mongo-database-versioning.svg)](https://github.com/FelipeSouzaF/mongo-database-versioning/blob/main/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
@@ -30,12 +30,15 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`mongo-migrate create OPTION FILE`](#mongo-migrate-create-option-file)
-* [`mongo-migrate factory`](#mongo-migrate-factory)
-* [`mongo-migrate help [COMMAND]`](#mongo-migrate-help-command)
-* [`mongo-migrate migrate`](#mongo-migrate-migrate)
-* [`mongo-migrate rollback`](#mongo-migrate-rollback)
-* [`mongo-migrate seed`](#mongo-migrate-seed)
+- [mongo-database-versioning](#mongo-database-versioning)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`mongo-migrate create OPTION FILE`](#mongo-migrate-create-option-file)
+  - [`mongo-migrate factory`](#mongo-migrate-factory)
+  - [`mongo-migrate help [COMMAND]`](#mongo-migrate-help-command)
+  - [`mongo-migrate migrate`](#mongo-migrate-migrate)
+  - [`mongo-migrate rollback`](#mongo-migrate-rollback)
+  - [`mongo-migrate seed`](#mongo-migrate-seed)
 
 ## `mongo-migrate create OPTION FILE`
 
